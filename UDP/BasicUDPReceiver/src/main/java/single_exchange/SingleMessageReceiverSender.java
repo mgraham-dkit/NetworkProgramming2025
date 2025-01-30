@@ -2,6 +2,7 @@ package single_exchange;
 
 import java.io.IOException;
 import java.net.*;
+import java.time.LocalDateTime;
 
 public class SingleMessageReceiverSender {
     public static void main(String[] args) {
@@ -32,7 +33,7 @@ public class SingleMessageReceiverSender {
 
             // TRANSMISSION:
             // Create a reply message
-            String response = "Message received.";
+            String response = LocalDateTime.now().toString();
             // Build byte array out of reply (without padding)
             byte[] payloadToBeSent = response.getBytes();
             // Build packet to hold the information

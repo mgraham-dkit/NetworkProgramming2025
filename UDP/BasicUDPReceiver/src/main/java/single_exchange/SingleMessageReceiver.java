@@ -10,6 +10,7 @@ public class SingleMessageReceiver {
 
         // Create a window for server to access network
         try (DatagramSocket mySocket = new DatagramSocket(myPort)) {
+            // WHILE LOOP STARTS HERE
             // Array to store incoming message
             byte[] payload = new byte[1024 * 64];
             // Packet to store incoming message
