@@ -8,15 +8,11 @@ import java.util.HashMap;
 
 public class AuthenticationReceiverSender {
     private static final String SHUT_DOWN = "SHUTDOWN";
-    private static HashMap<String, User> users = new HashMap<>();
+    private static final HashMap<String, User> users = new HashMap<>();
 
     public static void main(String[] args) {
         // SET UP:
-        for (int i = 0; i < 5; i++) {
-            String username = "user" + i;
-            String password = "password" + i;
-            users.put(username, new User(username, password));
-        }
+        bootstrapUsers();
 
         int myPort = 7777;
         try (DatagramSocket mySocket = new DatagramSocket(myPort)) {
@@ -80,5 +76,13 @@ public class AuthenticationReceiverSender {
         }
 
         System.out.println("Service shutting down...");
+    }
+
+    private static void bootstrapUsers() {
+        for (int i = 0; i < 5; i++) {
+            String username = "user" + i;
+            String password = "password" + i;
+            users.put(username, new User(username, password));
+        }
     }
 }
