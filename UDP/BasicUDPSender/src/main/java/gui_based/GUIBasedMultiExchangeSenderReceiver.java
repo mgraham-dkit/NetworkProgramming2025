@@ -1,8 +1,6 @@
 package gui_based;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -50,9 +48,6 @@ public class GUIBasedMultiExchangeSenderReceiver {
 
     // Use constructor to establish the components (parts) of the GUI
     public GUIBasedMultiExchangeSenderReceiver(){
-        // Set up socket for communication
-        this.setUpSocket();
-
         // Set up the main window
         configureMainWindow();
 
@@ -64,8 +59,6 @@ public class GUIBasedMultiExchangeSenderReceiver {
         // This allows for the sending and display of received messages
         configureMessagingArea();
 
-        // Show the appropriate view (config panel to start)
-        this.showConfigPanel();
     }
 
     private void configureMainWindow() {
@@ -117,12 +110,9 @@ public class GUIBasedMultiExchangeSenderReceiver {
         configureButton = new JButton("Configure");
 
         // Action Listener to set up socket when the configure button is pressed
-        configureButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Call method to set up the socket
-                setRecipientDetails();
-            }
+        configureButton.addActionListener(e -> {
+            // Call method to set up the socket
+            setRecipientDetails();
         });
 
         // Add config components to config panel in specific positions within the gridbag
@@ -183,22 +173,12 @@ public class GUIBasedMultiExchangeSenderReceiver {
         // Create a textfield to take in messages
         messageEntryTextField = new JTextField(25);
         // Add a listener to react if the user presses enter
-        messageEntryTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
+        messageEntryTextField.addActionListener(e -> sendMessage());
 
         // Create a button to send messages
         sendButton = new JButton("Send");
         // Action Listener to send the message when the button is clicked
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
+        sendButton.addActionListener(e -> sendMessage());
 
         // Create a panel to hold the button and text field beside each other
         textFieldPanel = new JPanel();
@@ -327,9 +307,16 @@ public class GUIBasedMultiExchangeSenderReceiver {
         }
     }
 
+    public void start(){
+        // Set up socket for communication
+        this.setUpSocket();
+        // Show the appropriate view (config panel to start)
+        this.showConfigPanel();
+    }
     // GUI runner
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) {
         GUIBasedMultiExchangeSenderReceiver gui = new GUIBasedMultiExchangeSenderReceiver();
+        gui.start();
     }
 }
 
