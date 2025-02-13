@@ -39,7 +39,7 @@ public class ComboServiceServer {
                 // Break request into components:
                 String [] components = incomingMessage.split("%%");
                 // Handle the specific requirements for this request
-                switch(components[0].toUpperCase()){
+                switch(components[0]){
                     case "ECHO" -> {
                         if(components.length == 2){
                             response = components[1];
