@@ -100,7 +100,9 @@ public class SampleGUI {
 
     // GUI runner
     public static void main(String[] args) {
+        // Create an instance of the GUI
         SampleGUI gui = new SampleGUI();
+        // Start the GUI - this will trigger the application to be made visible
         gui.start();
     }
 }
