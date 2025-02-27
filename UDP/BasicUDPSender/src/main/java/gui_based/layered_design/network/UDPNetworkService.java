@@ -1,9 +1,7 @@
 package gui_based.layered_design.network;
 
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
 
 public class UDPNetworkService {
     private DatagramSocket socket;
@@ -32,5 +30,24 @@ public class UDPNetworkService {
             socket.close();
         }
         System.out.println("Socket disconnected");
+    }
+
+    public void send(String message) throws IOException {
+        if(socket == null){
+            throw new SocketException("Socket is not connected");
+        }
+        byte [] payload = message.getBytes();
+        DatagramPacket packet = new DatagramPacket(payload, payload.length, destinationIP, destPort);
+        socket.send(packet);
+    }
+
+    public String receive() throws IOException {
+        if(socket == null){
+            throw new SocketException("Socket is not connected");
+        }
+        byte [] responsePayload = new byte[1024*64];
+        DatagramPacket reply = new DatagramPacket(responsePayload, responsePayload.length);
+        socket.receive(reply);
+        return new String(reply.getData(), 0, reply.getLength());
     }
 }
