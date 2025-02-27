@@ -14,7 +14,7 @@ public class MultiUserDrivenMessageSenderReceiver {
             mySocket.setSoTimeout(5000);
 
             InetAddress destinationIP = InetAddress.getByName("localhost");
-            int destinationPort = 7777;
+            int destinationPort = 12345;
 
             // LOGIC:
             System.out.println("Do you wish to send a message? (Y/y for yes, any other key for no)");
