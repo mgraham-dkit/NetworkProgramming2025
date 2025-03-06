@@ -2,11 +2,16 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class SampleGUI {
     // GUI components
+    // Create Map of all GUI components
+    private final HashMap<String, Component> guiComponents = new HashMap<>();
     // Main gui window
     private JFrame mainFrame;
+    // Main Font setting
+    private Font font = new Font("Arial", Font.PLAIN, 16);
 
     // Panel for initial view
     private JPanel initialView;
@@ -16,6 +21,9 @@ public class SampleGUI {
     private JTextField usernameField;
     private JTextField passwordField;
     private JButton loginButton;
+
+    private JButton decreaseFontButton;
+    private JButton increaseFontButton;
 
     // Use constructor to establish the components (parts) of the GUI
     public SampleGUI() {
@@ -31,11 +39,15 @@ public class SampleGUI {
         // Create the main frame - this is the main window
         mainFrame = new JFrame("Basic Sample GUI");
         mainFrame.setSize(400, 300);
+        mainFrame.setFont(font);
         // Set what should happen when the X button is clicked on the window
         // This approach will dispose of the main window but not shut down the program
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Set the layout manager used for the main window
         mainFrame.setLayout(new CardLayout());
+
+        // Add to Component map
+        guiComponents.put("mainFrame", mainFrame);
     }
 
     // Set up initial panel (initial view)
@@ -48,15 +60,34 @@ public class SampleGUI {
         // Create text fields and associated labels to take in username and password
         // Username info
         usernameLabel = new JLabel("Username: ");
+        usernameLabel.setFont(font);
+        guiComponents.put("usernameLabel", usernameLabel);
         usernameField = new JTextField(15);
+        usernameField.setFont(font);
+        guiComponents.put("usernameField", usernameField);
 
         // Password info
         passwordLabel = new JLabel("Password: ");
+        passwordLabel.setFont(font);
+        guiComponents.put("passwordLabel", passwordLabel);
         passwordField = new JTextField(15);
+        passwordField.setFont(font);
+        guiComponents.put("passwordField", passwordField);
 
         // Create a button to log in user
         loginButton = new JButton("Log in");
+        loginButton.setFont(font);
+        guiComponents.put("loginButton", loginButton);
 
+        // Create a button to increase font
+        increaseFontButton = new JButton("Increase Font");
+        increaseFontButton.setFont(font);
+        guiComponents.put("increaseFontButton", increaseFontButton);
+
+        // Create a button to decrease font
+        decreaseFontButton = new JButton("Decrease Font");
+        decreaseFontButton.setFont(font);
+        guiComponents.put("decreaseFontButton", decreaseFontButton);
 
         // Add credential components to initial view panel in specific positions within the gridbag
         // Add username label and text field on first row (y = 0)
@@ -68,6 +99,14 @@ public class SampleGUI {
 
         // Add button on third row (y = 2) spanning two columns (width = 2)
         initialView.add(loginButton, getGridBagConstraints(0, 2, 2));
+
+        // Add empty space on fourth row (y = 3) spanning two columns (width = 2)
+        initialView.add(new JPanel(), getGridBagConstraints(0, 3, 2));
+
+        // Add button on fifth row (y = 4) spanning two columns (width = 2)
+        initialView.add(increaseFontButton, getGridBagConstraints(0, 4, 2));
+        // Add button on sixth row (y = 5) spanning two columns (width = 2)
+        initialView.add(decreaseFontButton, getGridBagConstraints(0, 5, 2));
     }
 
     private static GridBagConstraints getGridBagConstraints(int col, int row, int width) {
