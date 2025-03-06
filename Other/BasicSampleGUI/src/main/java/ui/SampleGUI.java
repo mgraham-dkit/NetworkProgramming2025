@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 
 public class SampleGUI {
@@ -26,9 +28,18 @@ public class SampleGUI {
     private JTextField usernameField;
     private JTextField passwordField;
     private JButton loginButton;
-
+    // Buttons to increase and decrease font size (on initial view)
     private JButton decreaseFontButton;
     private JButton increaseFontButton;
+
+    // Panel for logged-in view
+    private JPanel countCharView;
+    private JButton countButton;
+    private JLabel userTextLabel;
+    private JTextField userTextField;
+    private JLabel userCountLabel;
+    private JTextField userCountField;
+
 
     // Use constructor to establish the components (parts) of the GUI
     public SampleGUI() {
@@ -41,6 +52,26 @@ public class SampleGUI {
         // Set up the initial panel (the initial view on the system)
         // This takes in the username and password of the user
         configureInitialPanel();
+
+        // Set up second panel
+        configureCountView();
+    }
+
+    private static GridBagConstraints getGridBagConstraints(int col, int row, int width) {
+        // Create a constraints object to manage component placement within a frame/panel
+        GridBagConstraints gbc = new GridBagConstraints();
+        // Set it to fill horizontally (component will expand to fill width)
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // Add padding around the component (Pad by 5 on all sides)
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        // Set the row position to the supplied value
+        gbc.gridx = col;
+        // Set the column position to the supplied value
+        gbc.gridy = row;
+        // Set the component's width to the supplied value (in columns)
+        gbc.gridwidth = width;
+        return gbc;
     }
 
     private void configureMainWindow() {
@@ -52,6 +83,16 @@ public class SampleGUI {
         mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // Set the layout manager used for the main window
         mainFrame.setLayout(new CardLayout());
+
+        // Add a listener to the overall window that reacts when window close action is requested
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Shutting down...");
+                // Shut down the application fully
+                System.exit(0);
+            }
+        });
 
         // Register the main window as a container in the system
         guiContainers.put("mainFrame", mainFrame);
@@ -117,26 +158,54 @@ public class SampleGUI {
         initialView.add(decreaseFontButton, getGridBagConstraints(0, 5, 2));
     }
 
-    private static GridBagConstraints getGridBagConstraints(int col, int row, int width) {
-        // Create a constraints object to manage component placement within a frame/panel
-        GridBagConstraints gbc = new GridBagConstraints();
-        // Set it to fill horizontally (component will expand to fill width)
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        // Add padding around the component (Pad by 5 on all sides)
-        gbc.insets = new Insets(5, 5, 5, 5);
+    private void configureCountView(){
+        // Create and configure the config panel
+        // This will provide a view to take in the user credentials
+        // Use a GridBag layout so we have a grid to work with, but there's some flexibility (button can span columns)
+        countCharView = new JPanel(new GridBagLayout());
+        // Register this panel as a container in the system
+        guiContainers.put("countCharView", countCharView);
 
-        // Set the row position to the supplied value
-        gbc.gridx = col;
-        // Set the column position to the supplied value
-        gbc.gridy = row;
-        // Set the component's width to the supplied value (in columns)
-        gbc.gridwidth = width;
-        return gbc;
+        // Create text fields and associated labels to take in username and password
+        // Username info
+        userTextLabel = new JLabel("Enter your text: ");
+        userTextField = new JTextField(15);
+
+        userCountLabel = new JLabel("What to count: ");
+        userCountField = new JTextField(15);
+        // Create a button to log in user
+        countButton = new JButton("Count occurrences");
+        // Specify what the button should DO when clicked:
+        countButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //count();
+                System.out.println("Counting!!");
+            }
+        });
+
+        // Add credential components to count view panel in specific positions within the gridbag
+        // Add username label and text field on first row (y = 0)
+        countCharView.add(userTextLabel, getGridBagConstraints(0, 0, 1));
+        countCharView.add(userTextField, getGridBagConstraints(1, 0, 1));
+        // Add password label and text field on second row (y = 1)
+        countCharView.add(userCountLabel, getGridBagConstraints(0, 1, 1));
+        countCharView.add(userCountField, getGridBagConstraints(1, 1, 1));
+
+        // Add button on third row (y = 2) spanning two columns (width = 2)
+        countCharView.add(countButton, getGridBagConstraints(0, 2, 2));
     }
 
     private void showInitialView(){
         // Add config panel to the main window and make it visible
         mainFrame.add(initialView);
+        mainFrame.setVisible(true);
+    }
+
+    private void showCountView(){
+        // Add config panel to the main window and make it visible
+        mainFrame.remove(0);
+        mainFrame.add(countCharView);
         mainFrame.setVisible(true);
     }
 
@@ -157,6 +226,7 @@ public class SampleGUI {
                 JOptionPane.showMessageDialog(initialView, "You have successfully logged in!", "Login Successful",
                         JOptionPane.INFORMATION_MESSAGE);
                 mainFrame.remove(initialView);
+                showCountView();
                 return;
             }
         }
