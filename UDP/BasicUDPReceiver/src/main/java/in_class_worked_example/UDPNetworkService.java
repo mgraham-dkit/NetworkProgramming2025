@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 @Slf4j
-public class UDPNetworkService {
+public class UDPNetworkService implements NetworkService {
     private DatagramSocket socket;
     private int myPort;
 
