@@ -3,10 +3,7 @@ package in_class_worked_example;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 @Slf4j
 public class UDPNetworkService implements NetworkService {
@@ -15,6 +12,15 @@ public class UDPNetworkService implements NetworkService {
 
     private InetAddress destIP;
     private int destPort;
+
+    // Provide constructor for clients to use
+    // This allows the client to set their socket to send to a specific server
+    public UDPNetworkService(int myPort, String destHost, int destPort) throws UnknownHostException {
+        this.myPort = myPort;
+        this.destPort = destPort;
+
+        this.destIP = InetAddress.getByName(destHost);
+    }
 
     public UDPNetworkService(int myPort) {
         this.myPort = myPort;
