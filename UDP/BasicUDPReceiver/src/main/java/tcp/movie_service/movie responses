@@ -1,0 +1,21 @@
+$id%%$name%%$year%%$genre[~~$id%%$name%%$year%%$genre]*
+1%%Frozen%%2011%%Animated~~2%%Tangled%%2008%%Animated~~3%%Mulan%%1998%%Animated~~4%%The Little Mermaid%%1989%%Animated
+
+String [] components = response.split("~~")
+    components[0] = 1%%Frozen%%2011%%Animated
+    components[1] = 2%%Tangled%%2008%%Animated
+    components[2] = 3%%Mulan%%1998%%Animated
+    components[3] = 4%%The Little Mermaid%%1989%%Animated
+
+for(int i = 0; i < components.length; i++){
+    String [] movieParts = component[i].split("%%")
+}
+    movieParts[0] = 1
+    movieParts[1] = Frozen
+    movieParts[2] = 2011
+    movieParts[3] = Animated
+
+serialised = 1%%Frozen%%2011%%Animated
+iteration 1: serialised = 1%%Frozen%%2011%%Animated~~2%%Tangled%%2008%%Animated
+iteration 2: serialised = 1%%Frozen%%2011%%Animated~~2%%Tangled%%2008%%Animated~~3%%Mulan%%1998%%Animated
+iteration 3: serialised = 1%%Frozen%%2011%%Animated~~2%%Tangled%%2008%%Animated~~3%%Mulan%%1998%%Animated~~4%%The Little Mermaid%%1989%%Animated

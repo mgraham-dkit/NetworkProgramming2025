@@ -18,8 +18,8 @@ public class TCPServer {
                 PrintWriter out = new PrintWriter(clientDataSocket.getOutputStream());
 
                 // Receive a message
-                String response = in.nextLine();
-                System.out.println("Request: " + response);
+                String request = in.nextLine();
+                System.out.println("Request: " + request);
 
                 out.println("Request received!");
                 out.flush();

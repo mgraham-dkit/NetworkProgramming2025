@@ -6,15 +6,18 @@ public class MovieUtilities {
 
     // REQUESTS
     public static final String ADD = "ADD";
-    
-    // DELIMITER
+    public static final String LIST = "LIST";
+
+    // DELIMITERS
     public static final String DELIMITER = "%%";
-    
+    public static final String MOVIE_DELIMITER = "~~";
+
     // RESPONSES
     public static final String ADDED = "ADDED";
     public static final String NON_NUMERIC = "NON_NUMERIC_DATA";
     public static final String INVALID_YEAR = "INVALID_YEAR";
-    
+    public static final String NO_MOVIES_FOUND = "NO_MOVIES_FOUND";
+
     // GENERAL MALFORMED RESPONSE:
     public static final String INVALID = "INVALID";
 }
