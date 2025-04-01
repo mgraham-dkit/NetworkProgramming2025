@@ -23,6 +23,10 @@ public class TCPNetworkLayer {
         }
 
         this.dataSocket = dataSocket;
+        setStreams();
+    }
+
+    private void setStreams() throws IOException {
         this.inputStream = new Scanner(dataSocket.getInputStream());
         this.outputStream = new PrintWriter(dataSocket.getOutputStream());
     }
@@ -47,5 +51,6 @@ public class TCPNetworkLayer {
 
     public void connect() throws IOException {
         dataSocket = new Socket(hostname, port);
+        setStreams();
     }
 }
