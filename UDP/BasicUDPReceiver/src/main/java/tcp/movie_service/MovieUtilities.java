@@ -7,6 +7,7 @@ public class MovieUtilities {
     // REQUESTS
     public static final String ADD = "ADD";
     public static final String LIST = "LIST";
+    public static final String EXIT = "EXIT";
 
     // DELIMITERS
     public static final String DELIMITER = "%%";
@@ -17,6 +18,7 @@ public class MovieUtilities {
     public static final String NON_NUMERIC = "NON_NUMERIC_DATA";
     public static final String INVALID_YEAR = "INVALID_YEAR";
     public static final String NO_MOVIES_FOUND = "NO_MOVIES_FOUND";
+    public static final String ACK = "GOODBYE";
 
     // GENERAL MALFORMED RESPONSE:
     public static final String INVALID = "INVALID";
