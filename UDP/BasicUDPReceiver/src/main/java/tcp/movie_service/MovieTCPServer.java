@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MovieTCPServer {
+    private static String username = "admin";
+    private static String password = "adminPassword";
+
     public static void main(String[] args) {
         try {
             ServerSocket connectionSocket = new ServerSocket(MovieUtilities.PORT);
@@ -20,25 +23,36 @@ public class MovieTCPServer {
                 TCPNetworkLayer networkLayer = new TCPNetworkLayer(clientDataSocket);
 
                 boolean validClientSession = true;
+                boolean loginStatus = false;
                 while(validClientSession) {
                     // Receive a message
                     String request = networkLayer.receive();
                     System.out.println("Request: " + request);
 
-                    String response = MovieUtilities.INVALID;
+                    String response = null;
 
                     String[] components = request.split(MovieUtilities.DELIMITER);
                     switch (components[0]) {
+                        case MovieUtilities.LOGIN:
+                            response = handleLogin(components);
+                            if(response.equals(MovieUtilities.SUCCESS)){
+                                loginStatus = true;
+                            }
+                            break;
                         case MovieUtilities.ADD:
-                            response = handleAddMovie(components, movieManager);
+                            response = handleAddMovie(components, movieManager, loginStatus);
                             break;
                         case MovieUtilities.LIST:
-                            response = handleListMovies(components, movieManager);
+                            response = handleListMovies(components, movieManager, loginStatus);
                             break;
                         case MovieUtilities.EXIT:
                             response = MovieUtilities.ACK;
                             validClientSession = false;
                             break;
+                    }
+
+                    if(response == null){
+                        response = MovieUtilities.INVALID;
                     }
 
                     networkLayer.send(response);
@@ -51,7 +65,10 @@ public class MovieTCPServer {
         }
     }
 
-    private static String handleListMovies(String[] components, MovieManager movieManager) {
+    private static String handleListMovies(String[] components, MovieManager movieManager, boolean loggedIn) {
+        if(!loggedIn)
+            return MovieUtilities.NOT_LOGGED_IN;
+
         String response = null;
         if (components.length == 1) {
             List<Movie> movies = movieManager.getAllMovies();
@@ -64,7 +81,22 @@ public class MovieTCPServer {
         return response;
     }
 
-    private static String handleAddMovie(String[] components, MovieManager movieManager) {
+    private static String handleLogin(String[] components) {
+        String response = null;
+        if (components.length == 3) {
+            if(components[1].equalsIgnoreCase(username) && components[2].equals(password)){
+                response = MovieUtilities.SUCCESS;
+            }else{
+                response = MovieUtilities.FAILED;
+            }
+        }
+        return response;
+    }
+
+    private static String handleAddMovie(String[] components, MovieManager movieManager, boolean loggedIn) {
+        if(!loggedIn)
+            return MovieUtilities.NOT_LOGGED_IN;
+
         String response = null;
         if(components.length == 4) {
             try {
