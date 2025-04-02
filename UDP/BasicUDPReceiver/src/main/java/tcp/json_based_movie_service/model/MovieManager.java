@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MovieManager {
+public class MovieManager implements IMovieManager{
     private static int movieIdCount = 0;
     private final HashMap<Integer, Movie> movies;
 
