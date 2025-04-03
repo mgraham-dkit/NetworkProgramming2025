@@ -1,0 +1,54 @@
+All class references are based on the movie example
+---------------------------------------------------
+Pre-requisite packages:
+	model:
+		Entity (Movie)
+		Manager/service (MovieManager)
+	network:
+		Network layer (TCPNetworkLayer)
+	service:
+		Utility class (MovieUtilities)
+
+Scheduler (class with server socket):
+	- Create/inject model instance
+	- Create connection socket (can use try-with-resources now!)
+	- Set server session boolean to true
+	- while server session is true:
+		- Accept new client connection
+		- Create dedicated Service Handler
+		- Create wrapper Thread object
+		- Call start() on thread object
+
+ServiceHandler (class with client socket and actual service parsing):
+Class MUST:
+	- Implement Runnable (without this you can't be executed by a Thread!) - this means providing a run() method
+	- Contain a Socket instance (to hold client socket)
+	- Contain a network layer instance (to provide network communication capability)
+
+	- constructor should:
+		-> Take in and store client socket
+		-> Use client socket to create network layer for THIS client (remember to store the network layer!)
+		-> Take in and store the model
+
+	- run() should:
+		-> Set up a boolean to manage client session loop
+		-> While client session is active:
+			-> Read in a message from the server
+			-> Parse the message into components
+			-> Check which action is being requested (switch statement)
+			-> Call the corresponding method for that action (Method should generate an appropriate response String, i.e. return a String to be sent back to the client)
+			-> Send the response back to the client
+		-> When session has ended:
+			-> disconnect network layer
+
+"Clear" Client steps:
+	- Create network layer connecting to service location
+	- While user has not entered EXIT:
+		- Take in input
+		- Transmit to server
+		- Take in response
+		- Display response
+
+	- Close network layer
+	- Close scanner
+	- Terminate program
